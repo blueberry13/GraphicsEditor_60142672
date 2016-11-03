@@ -8,7 +8,7 @@ import constants.GConstants.EMainFrame;
 // MainFrame specialize JFrame
 public class GMainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-
+	
 	//components
 	private GMenuBar menuBar;
 	private GToolBar toolBar;

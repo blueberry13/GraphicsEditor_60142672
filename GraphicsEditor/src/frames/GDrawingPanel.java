@@ -14,6 +14,7 @@ import shapes.GShape;
 public class GDrawingPanel extends JPanel {
 	// attributes
 	private static final long serialVersionUID = 1L;
+	
 	// object states
 	private enum EState {idleTP, idleNP, drawingTP, drawingNP};
 	private EState eState = EState.idleTP;
@@ -41,6 +42,16 @@ public class GDrawingPanel extends JPanel {
 		switch(this.selectedShape.geteDrawingType()) {
 		case TP: eState = EState.idleTP; break;
 		case NP: eState = EState.idleNP; break;
+		}
+	}
+	
+	private void changePointShape(int x, int y) {
+		for(GShape shape: this.shapeVector) {
+			if(shape.contains(x, y)) {
+				
+			} else {
+				
+			}
 		}
 	}
 	
@@ -136,6 +147,7 @@ public class GDrawingPanel extends JPanel {
 			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.TP) {			
 				if(eState == EState.drawingTP) {
 					finishDrawing(e.getX(), e.getY());
+					changePointShape(e.getX(), e.getY());
 					eState = EState.idleTP;
 				}
 			}

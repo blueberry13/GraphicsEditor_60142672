@@ -11,6 +11,7 @@ import constants.GConstants.EToolBarButton;
 
 public class GToolBar extends JToolBar {
 	private static final long serialVersionUID = 1L;
+	
 	private GDrawingPanel drawingPanel;
 	
 	public GToolBar() {
