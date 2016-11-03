@@ -1,31 +1,27 @@
 package shapes;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
 
 import constants.GConstants.EDrawingType;
 
 public class GLine extends GShape{
-	private int x, y, w, h;
+	private Line2D line;
 	
 	public GLine() {
 		super(EDrawingType.TP);
-		this.x = 0;
-		this.y = 0;
-		this.w = 0;
-		this.h = 0;
+		this.line = new Line2D.Double(0, 0, 0, 0);
 	}
 	
 	@Override
 	public void initDrawing(int x, int y) {
-		this.x = x;
-		this.y = y;
+		line.setLine(x, y, x, y);
 	}
 
 	@Override
 	public void keepDrawing(int x, int y, Graphics2D g2D) {
 		this.draw(g2D);
-		this.w = x - this.x;
-		this.h = y - this.y;
+		this.line.setLine(this.line.getX1(), this.line.getY1(), x, y);
 		this.draw(g2D);
 	}
 
@@ -41,6 +37,6 @@ public class GLine extends GShape{
 
 	@Override
 	public void draw(Graphics2D g2D) {
-		g2D.drawLine(x, y, x + w, y + h);
+		g2D.draw(this.line);
 	}
 }

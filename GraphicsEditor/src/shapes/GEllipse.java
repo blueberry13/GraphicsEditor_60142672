@@ -6,27 +6,22 @@ import java.awt.geom.Ellipse2D;
 import constants.GConstants.EDrawingType;
 
 public class GEllipse extends GShape{
-	private int x, y, w, h;
+	private Ellipse2D ellipse;
 	
 	public GEllipse() {
 		super(EDrawingType.TP);
-		this.x = 0;
-		this.y = 0;
-		this.w = 0;
-		this.h = 0;
+		this.ellipse = new Ellipse2D.Double(0, 0, 0, 0);
 	}
 	
 	@Override
 	public void initDrawing(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.ellipse.setFrame(x, y, 0, 0);
 	}
 
 	@Override
 	public void keepDrawing(int x, int y, Graphics2D g2D) {
 		this.draw(g2D);
-		this.w = x - this.x;
-		this.h = y - this.y;
+		this.ellipse.setFrame(this.ellipse.getX(), this.ellipse.getY(), x - this.ellipse.getX(), y - this.ellipse.getY());
 		this.draw(g2D);
 	}
 
@@ -42,6 +37,6 @@ public class GEllipse extends GShape{
 
 	@Override
 	public void draw(Graphics2D g2D) {
-		g2D.draw(new Ellipse2D.Double(x, y, Math.abs(w), Math.abs(h)));
+		g2D.draw(this.ellipse);
 	}
 }

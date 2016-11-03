@@ -6,7 +6,6 @@ import constants.GConstants.EDrawingType;
 
 public abstract class GShape {
 	private EDrawingType eDrawingType;
-	protected int x, y, w, h;
 	
 	public EDrawingType geteDrawingType() { return eDrawingType;}
 	

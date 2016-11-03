@@ -74,10 +74,6 @@ public class GConstants {
 		public String getText() { return this.text; }
 	}
 	
-	public static enum EDrawingType {
-		TP, NP;
-	}
-	
 	public static enum EToolBarButton {
 		rectangle("rsc/Rectangle.gif", "rsc/RectangleSLT.gif", new GRectangle()),
 		ellipse("rsc/Ellipse.gif", "rsc/EllipseSLT.gif", new GEllipse()),
@@ -97,5 +93,9 @@ public class GConstants {
 		public String getIcon() { return this.icon; }
 		public String getSelectedIcon() { return this.selectedIcon; }
 		public GShape getShape() { return this.shape; }
+	}
+
+	public static enum EDrawingType {
+		TP, NP;
 	}
 }

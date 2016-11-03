@@ -1,31 +1,28 @@
 package shapes;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import constants.GConstants.EDrawingType;
 
 public class GRectangle extends GShape{
-	private int x, y, w, h;
+	private Rectangle rectangle;
 	
 	public GRectangle() {
 		super(EDrawingType.TP);
-		this.x = 0;
-		this.y = 0;
-		this.w = 0;
-		this.h = 0;
+		this.rectangle = new Rectangle(0, 0, 0, 0);
 	}
 	
 	@Override
 	public void initDrawing(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.rectangle.setLocation(x, y);
 	}
 
 	@Override
 	public void keepDrawing(int x, int y, Graphics2D g2D) {
 		this.draw(g2D);
-		this.w = x - this.x;
-		this.h = y - this.y;
+		this.rectangle.width = x - this.rectangle.x;
+		this.rectangle.height = y - this.rectangle.y;
 		this.draw(g2D);
 	}
 
@@ -41,7 +38,6 @@ public class GRectangle extends GShape{
 
 	@Override
 	public void draw(Graphics2D g2D) {
-		g2D.drawRect(x, y, Math.abs(w), Math.abs(h));
-
+		g2D.draw(this.rectangle);
 	}
 }
