@@ -11,6 +11,7 @@ public class GPolygon extends GShape{
 	public GPolygon() {
 		super(EDrawingType.NP);
 		this.polygon = new Polygon();
+		this.shape = this.polygon;
 	}
 
 	@Override

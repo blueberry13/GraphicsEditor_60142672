@@ -33,7 +33,7 @@ public abstract class GShape {
 	}
 	
 	public boolean contains(int x, int y) {
-		return shape.contains(x, y);
+		return this.shape.getBounds2D().contains(x, y);
 	}
 	
 	public abstract void initDrawing(int x, int y);

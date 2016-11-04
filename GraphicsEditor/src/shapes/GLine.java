@@ -11,6 +11,7 @@ public class GLine extends GShape{
 	public GLine() {
 		super(EDrawingType.TP);
 		this.line = new Line2D.Double(0, 0, 0, 0);
+		this.shape = this.line;
 	}
 	
 	@Override

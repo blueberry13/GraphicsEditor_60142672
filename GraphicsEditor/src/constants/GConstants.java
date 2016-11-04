@@ -1,5 +1,7 @@
 package constants;
 
+import java.awt.Cursor;
+
 import javax.swing.JMenu;
 
 import menus.GEditMenu;
@@ -97,5 +99,18 @@ public class GConstants {
 
 	public static enum EDrawingType {
 		TP, NP;
+	}
+	
+	public static enum ECursor {
+		defaultCursor(new Cursor(Cursor.DEFAULT_CURSOR)),
+		handCursor(new Cursor(Cursor.HAND_CURSOR));
+			
+		private Cursor cursor;
+		
+		private ECursor(Cursor cursor) {
+			this.cursor = cursor;
+		}
+		
+		public Cursor getCursor() { return this.cursor; }
 	}
 }

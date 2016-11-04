@@ -8,7 +8,7 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-import constants.GConstants.EDrawingType;
+import constants.GConstants.ECursor;
 import shapes.GShape;
 
 public class GDrawingPanel extends JPanel {
@@ -20,11 +20,12 @@ public class GDrawingPanel extends JPanel {
 	private EState eState = EState.idleTP;
 	// components
 	private Vector<GShape> shapeVector;
+	private Vector<GShape> getShapes() { return this.shapeVector; }
 	// associative attributes
 	private GShape selectedShape;
 	// working objects;
 	private GShape currentShape;
-	
+		
 	public GDrawingPanel() {
 		MouseEventHandler mouseEventHandler = new MouseEventHandler();
 		this.addMouseListener(mouseEventHandler);
@@ -38,7 +39,6 @@ public class GDrawingPanel extends JPanel {
 	
 	public void setSelectedShape(GShape shape) {
 		this.selectedShape = shape;
-		
 		switch(this.selectedShape.geteDrawingType()) {
 		case TP: eState = EState.idleTP; break;
 		case NP: eState = EState.idleNP; break;
@@ -46,15 +46,15 @@ public class GDrawingPanel extends JPanel {
 	}
 	
 	private void changePointShape(int x, int y) {
-		for(GShape shape: this.shapeVector) {
+		for(GShape shape: this.getShapes()) {
 			if(shape.contains(x, y)) {
-				
+				this.setCursor(ECursor.handCursor.getCursor());
 			} else {
-				
+				this.setCursor(ECursor.defaultCursor.getCursor());
 			}
 		}
 	}
-	
+
 	public void paint(Graphics g) {
 		for (GShape shape: this.shapeVector) {
 			shape.draw((Graphics2D)g);
@@ -89,7 +89,7 @@ public class GDrawingPanel extends JPanel {
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.NP) {
+			if(selectedShape != null) {
 				if(e.getClickCount() == 1) {
 					mouse1Clicked(e);
 				} else if(e.getClickCount() == 2) {
@@ -116,16 +116,16 @@ public class GDrawingPanel extends JPanel {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.NP) {			
-				if (eState == EState.drawingNP) {
-					keepDrawing(e.getX(), e.getY());
-				}
+			if (eState == EState.drawingNP) {
+				keepDrawing(e.getX(), e.getY());
+			} else {
+				changePointShape(e.getX(), e.getY());
 			}
 		}
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.TP) {			
+			if(selectedShape != null) {			
 				if(eState == EState.idleTP) {
 					initDrawing(e.getX(), e.getY());
 					eState = EState.drawingTP;
@@ -134,22 +134,17 @@ public class GDrawingPanel extends JPanel {
 		}
 		
 		@Override
-		public void mouseDragged(MouseEvent e) {
-			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.TP) {			
-				if(eState == EState.drawingTP) {
-					keepDrawing(e.getX(), e.getY());
-				}
+		public void mouseDragged(MouseEvent e) {			
+			if(eState == EState.drawingTP) {
+				keepDrawing(e.getX(), e.getY());
 			}
 		}
 		
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			if(selectedShape != null && selectedShape.geteDrawingType() == EDrawingType.TP) {			
-				if(eState == EState.drawingTP) {
-					finishDrawing(e.getX(), e.getY());
-					changePointShape(e.getX(), e.getY());
-					eState = EState.idleTP;
-				}
+		public void mouseReleased(MouseEvent e) {			
+			if(eState == EState.drawingTP) {
+				finishDrawing(e.getX(), e.getY());
+				eState = EState.idleTP;
 			}
 		}
 		

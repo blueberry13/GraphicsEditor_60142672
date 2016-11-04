@@ -11,6 +11,7 @@ public class GRectangle extends GShape{
 	public GRectangle() {
 		super(EDrawingType.TP);
 		this.rectangle = new Rectangle(0, 0, 0, 0);
+		this.shape = this.rectangle;
 	}
 	
 	@Override
