@@ -46,13 +46,23 @@ public class GDrawingPanel extends JPanel {
 	}
 	
 	private void changePointShape(int x, int y) {
+		if(onShape(x, y)) {
+			this.setCursor(ECursor.handCursor.getCursor());
+		} else {
+			this.setCursor(ECursor.defaultCursor.getCursor());
+		}
+	}
+	
+	public boolean onShape(int x, int y) {
+		boolean onShape = false;
 		for(GShape shape: this.getShapes()) {
 			if(shape.contains(x, y)) {
-				this.setCursor(ECursor.handCursor.getCursor());
+				onShape = true;
 			} else {
-				this.setCursor(ECursor.defaultCursor.getCursor());
+				onShape = false;
 			}
 		}
+		return onShape;
 	}
 
 	public void paint(Graphics g) {
@@ -95,9 +105,11 @@ public class GDrawingPanel extends JPanel {
 				} else if(e.getClickCount() == 2) {
 					mouse2Clicked(e);
 				}
+			} else if(onShape(e.getX(), e.getY())) {
+				
 			}
 		}
-		
+
 		private void mouse1Clicked(MouseEvent e) {
 			if(eState == EState.idleNP) {
 				initDrawing(e.getX(), e.getY());

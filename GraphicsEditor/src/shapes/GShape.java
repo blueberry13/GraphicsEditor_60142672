@@ -9,14 +9,21 @@ public abstract class GShape {
 	private EDrawingType eDrawingType;
 	private GAnchors anchors;
 	protected Shape shape;
+	protected boolean selected;
 	
 	public EDrawingType geteDrawingType() { return eDrawingType; }
-	
 	public void seteDrawingType(EDrawingType eDrawingType) { this.eDrawingType = eDrawingType; }
-	
-	public GAnchors getAnchors() { return anchors; }
-	
+	public GAnchors getAnchors() { return this.anchors; }
 	public void setAnchors(GAnchors anchors) { this.anchors = anchors; }
+	public boolean isSelected() { return this.selected; }
+	public void setSelected(boolean selected, Graphics2D g2D) {
+		this.selected = selected;
+		if(this.selected){
+			this.getAnchors().draw(g2D, this.shape.getBounds());
+		}else{
+			this.anchors = null;
+		}
+	}
 	
 	public GShape(EDrawingType eDrawingType) {
 		this.eDrawingType = eDrawingType;
