@@ -9,15 +9,15 @@ public class GPolygon extends GShape{
 	private Polygon polygon;
 	
 	public GPolygon() {
-		super(EDrawingType.NP);
-		this.polygon = new Polygon();
-		this.shape = this.polygon;
+		super(EDrawingType.NP, new Polygon());
+		this.polygon = (Polygon) this.getShape();
 	}
 
 	@Override
-	public void initDrawing(int x, int y) {
+	public void initDrawing(int x, int y, Graphics2D g2D) {
 		this.polygon.addPoint(x, y);
 		this.polygon.addPoint(x, y);
+		this.draw(g2D);
 	}
 
 	@Override
@@ -38,8 +38,9 @@ public class GPolygon extends GShape{
 		this.getAnchors().draw(g2D, this.polygon.getBounds());
 	}
 
-	@Override
-	public void draw(Graphics2D g2D) {
-		g2D.drawPolygon(polygon);
-	}
+//	@Override
+//	public void draw(Graphics2D g2D) {
+//		g2D.drawPolygon(polygon);
+//		g2D.draw(polygon);
+//	}
 }

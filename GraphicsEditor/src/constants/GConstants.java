@@ -16,6 +16,8 @@ public class GConstants {
 	public final static String MAINFRAME_TITLE = "GraphicsEditor";
 	public final static String FILEMENU_TITLE = "File";
 	public final static String EDITMENU_TITLE = "Edit";
+	public final static int AWIDTH = 8;
+	public final static int AHEIGHT = 8;
 	
 	public enum EMainFrame {
 		X(100), Y(100), W(400), H(400);
@@ -113,4 +115,6 @@ public class GConstants {
 		
 		public Cursor getCursor() { return this.cursor; }
 	}
+	
+	public enum EAnchors {NW, NN, NE, WW, EE, SW, SS, SE};
 }

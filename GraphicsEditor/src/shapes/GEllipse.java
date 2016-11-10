@@ -9,14 +9,14 @@ public class GEllipse extends GShape{
 	private Ellipse2D ellipse;
 	
 	public GEllipse() {
-		super(EDrawingType.TP);
-		this.ellipse = new Ellipse2D.Double(0, 0, 0, 0);
-		this.shape = this.ellipse;
+		super(EDrawingType.TP, new Ellipse2D.Double(0, 0, 0, 0));
+		this.ellipse = (Ellipse2D) getShape();
 	}
 	
 	@Override
-	public void initDrawing(int x, int y) {
+	public void initDrawing(int x, int y, Graphics2D g2D) {
 		this.ellipse.setFrame(x, y, 0, 0);
+		this.draw(g2D);
 	}
 
 	@Override
@@ -33,10 +33,5 @@ public class GEllipse extends GShape{
 	@Override
 	public void finishDrawing(int x, int y, Graphics2D g2D) {
 		this.getAnchors().draw(g2D, this.ellipse.getBounds());
-	}
-
-	@Override
-	public void draw(Graphics2D g2D) {
-		g2D.draw(this.ellipse);
 	}
 }

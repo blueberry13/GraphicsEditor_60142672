@@ -45,35 +45,39 @@ public class GDrawingPanel extends JPanel {
 		}
 	}
 	
-	private void changePointShape(int x, int y) {
-		if(onShape(x, y)) {
+	private void changeCursor(int x, int y) {
+		if(onShape(x, y) != null) {
+			//EAnchors 
 			this.setCursor(ECursor.handCursor.getCursor());
 		} else {
 			this.setCursor(ECursor.defaultCursor.getCursor());
 		}
 	}
-	
-	public boolean onShape(int x, int y) {
-		boolean onShape = false;
+
+//	private void resetSelected() {
+//		for(GShape shape: this.getShapes())
+//	}
+//	
+	private GShape onShape(int x, int y) {
 		for(GShape shape: this.getShapes()) {
 			if(shape.contains(x, y)) {
-				onShape = true;
-			} else {
-				onShape = false;
+				return shape;
 			}
 		}
-		return onShape;
+		return null;
 	}
 
 	public void paint(Graphics g) {
-		for (GShape shape: this.shapeVector) {
-			shape.draw((Graphics2D)g);
+		for (GShape shape: this.getShapes()) {
+			shape.draw((Graphics2D) g);
 		}
 	}
 	
 	private void initDrawing(int x, int y) {
 		this.currentShape= this.selectedShape.clone();
-		currentShape.initDrawing(x, y);
+		Graphics2D g2D = (Graphics2D) this.getGraphics();
+		g2D.setXORMode(g2D.getBackground());
+		this.currentShape.initDrawing(x, y, g2D);
 	}
 	
 	private void continueDrawing(int x, int y) {
@@ -93,6 +97,7 @@ public class GDrawingPanel extends JPanel {
 		g2D.setXORMode(this.getBackground());
 		this.currentShape.finishDrawing(x, y, g2D);
 		this.shapeVector.add(this.currentShape);
+		this.currentShape.setSelected(true, g2D);
 	}
 
 	class MouseEventHandler implements MouseInputListener, MouseMotionListener {
@@ -105,7 +110,7 @@ public class GDrawingPanel extends JPanel {
 				} else if(e.getClickCount() == 2) {
 					mouse2Clicked(e);
 				}
-			} else if(onShape(e.getX(), e.getY())) {
+			} else if(onShape(e.getX(), e.getY()) != null) {
 				
 			}
 		}
@@ -131,7 +136,7 @@ public class GDrawingPanel extends JPanel {
 			if (eState == EState.drawingNP) {
 				keepDrawing(e.getX(), e.getY());
 			} else {
-				changePointShape(e.getX(), e.getY());
+				changeCursor(e.getX(), e.getY());
 			}
 		}
 		

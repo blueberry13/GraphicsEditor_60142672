@@ -9,14 +9,14 @@ public class GLine extends GShape{
 	private Line2D line;
 	
 	public GLine() {
-		super(EDrawingType.TP);
-		this.line = new Line2D.Double(0, 0, 0, 0);
-		this.shape = this.line;
+		super(EDrawingType.TP, new Line2D.Double(0, 0, 0, 0));
+		this.line = (Line2D) this.getShape();
 	}
 	
 	@Override
-	public void initDrawing(int x, int y) {
+	public void initDrawing(int x, int y, Graphics2D g2D) {
 		line.setLine(x, y, x, y);
+		this.draw(g2D);
 	}
 
 	@Override
@@ -33,10 +33,5 @@ public class GLine extends GShape{
 	@Override
 	public void finishDrawing(int x, int y, Graphics2D g2D) {
 		this.getAnchors().draw(g2D, this.line.getBounds());
-	}
-
-	@Override
-	public void draw(Graphics2D g2D) {
-		g2D.draw(this.line);
 	}
 }
