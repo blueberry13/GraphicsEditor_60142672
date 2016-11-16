@@ -32,6 +32,5 @@ public class GLine extends GShape{
 
 	@Override
 	public void finishDrawing(int x, int y, Graphics2D g2D) {
-		this.getAnchors().draw(g2D, this.line.getBounds());
 	}
 }

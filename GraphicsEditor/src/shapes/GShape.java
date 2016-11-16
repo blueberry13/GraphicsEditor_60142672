@@ -17,17 +17,8 @@ public abstract class GShape {
 	public EDrawingType geteDrawingType() { return eDrawingType; }
 	public void seteDrawingType(EDrawingType eDrawingType) { this.eDrawingType = eDrawingType; }
 	public boolean isSelected() { return this.selected; }
-	public void setSelected(boolean selected, Graphics2D g2D) {
+	public void setSelected(boolean selected) {
 		this.selected = selected;
-		
-		this.getAnchors().draw(g2D, this.shape.getBounds());
-
-//		if(this.selected){
-//			this.anchors = new GAnchors();
-//			this.getAnchors().draw(g2D, this.shape.getBounds());
-//		}else{
-//			this.anchors = null;
-//		}
 	}
 	
 	public GAnchors getAnchors() { return this.anchors; }
@@ -59,8 +50,8 @@ public abstract class GShape {
 	
 	public void draw(Graphics2D g2D) {
 		g2D.draw(this.shape);
-		if(this.selected) {
-			this.anchors.draw(g2D, this.shape.getBounds());
+		if(this.selected){
+			this.getAnchors().draw(g2D, this.shape.getBounds());
 		}
 	}
 	public abstract void initDrawing(int x, int y, Graphics2D g2D);

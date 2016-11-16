@@ -8,7 +8,8 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-import constants.GConstants.ECursor;
+import shapes.GCursor;
+import shapes.GPolygon;
 import shapes.GShape;
 
 public class GDrawingPanel extends JPanel {
@@ -25,6 +26,8 @@ public class GDrawingPanel extends JPanel {
 	private GShape selectedShape;
 	// working objects;
 	private GShape currentShape;
+	// for currentSelectedShape
+	private GShape tempShape;
 		
 	public GDrawingPanel() {
 		MouseEventHandler mouseEventHandler = new MouseEventHandler();
@@ -32,11 +35,14 @@ public class GDrawingPanel extends JPanel {
 		this.addMouseMotionListener(mouseEventHandler);
 		
 		this.shapeVector = new Vector<GShape>();
+		
+		this.setOpaque(false);
 	}
 
 	public void initialize() {
 	}
 	
+	// toolbar selectedShape
 	public void setSelectedShape(GShape shape) {
 		this.selectedShape = shape;
 		switch(this.selectedShape.geteDrawingType()) {
@@ -46,18 +52,23 @@ public class GDrawingPanel extends JPanel {
 	}
 	
 	private void changeCursor(int x, int y) {
-		if(onShape(x, y) != null) {
-			//EAnchors 
-			this.setCursor(ECursor.handCursor.getCursor());
+		if(onShape(x, y) == null) {
+			this.setCursor(GCursor.defaultCursor);
 		} else {
-			this.setCursor(ECursor.defaultCursor.getCursor());
+			this.setCursor(GCursor.moveCursor);
 		}
 	}
-
-//	private void resetSelected() {
-//		for(GShape shape: this.getShapes())
-//	}
-//	
+	
+	// clicked shape
+	private void setSelected() {
+		// TODO Auto-generated method stub
+		for(GShape shape: this.getShapes()){
+			shape.setSelected(false);
+		}
+		tempShape.setSelected(true);
+		this.repaint();
+	}
+	
 	private GShape onShape(int x, int y) {
 		for(GShape shape: this.getShapes()) {
 			if(shape.contains(x, y)) {
@@ -97,26 +108,28 @@ public class GDrawingPanel extends JPanel {
 		g2D.setXORMode(this.getBackground());
 		this.currentShape.finishDrawing(x, y, g2D);
 		this.shapeVector.add(this.currentShape);
-		this.currentShape.setSelected(true, g2D);
+		tempShape = this.currentShape;
+		setSelected();
 	}
 
 	class MouseEventHandler implements MouseInputListener, MouseMotionListener {
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(selectedShape != null) {
+			if(selectedShape instanceof GPolygon) {
 				if(e.getClickCount() == 1) {
 					mouse1Clicked(e);
 				} else if(e.getClickCount() == 2) {
 					mouse2Clicked(e);
 				}
 			} else if(onShape(e.getX(), e.getY()) != null) {
-				
+				tempShape = onShape(e.getX(), e.getY());
+				setSelected();
 			}
 		}
 
 		private void mouse1Clicked(MouseEvent e) {
-			if(eState == EState.idleNP) {
+			 if(eState == EState.idleNP) {
 				initDrawing(e.getX(), e.getY());
 				eState = EState.drawingNP;
 			} else if(eState == EState.drawingNP) {
@@ -142,23 +155,24 @@ public class GDrawingPanel extends JPanel {
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if(selectedShape != null) {			
-				if(eState == EState.idleTP) {
-					initDrawing(e.getX(), e.getY());
-					eState = EState.drawingTP;
-				}
+			if(onShape(e.getX(), e.getY()) != null) {
+				tempShape = onShape(e.getX(), e.getY());
+				setSelected();
+			} else if(eState == EState.idleTP) {
+				initDrawing(e.getX(), e.getY());
+				eState = EState.drawingTP;
 			}
 		}
 		
 		@Override
-		public void mouseDragged(MouseEvent e) {			
+		public void mouseDragged(MouseEvent e) {
 			if(eState == EState.drawingTP) {
 				keepDrawing(e.getX(), e.getY());
 			}
 		}
 		
 		@Override
-		public void mouseReleased(MouseEvent e) {			
+		public void mouseReleased(MouseEvent e) {
 			if(eState == EState.drawingTP) {
 				finishDrawing(e.getX(), e.getY());
 				eState = EState.idleTP;
@@ -166,7 +180,7 @@ public class GDrawingPanel extends JPanel {
 		}
 		
 		@Override
-		public void mouseEntered(MouseEvent e) {	
+		public void mouseEntered(MouseEvent e) {
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {

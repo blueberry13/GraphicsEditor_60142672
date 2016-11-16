@@ -35,6 +35,8 @@ public class GToolBar extends JToolBar {
 	}
 	
 	public void initialize() {
+		JRadioButton button = (JRadioButton) this.getComponentAtIndex(EToolBarButton.rectangle.ordinal());
+		button.doClick();
 	}
 	
 	public class ActionHandler implements ActionListener {
