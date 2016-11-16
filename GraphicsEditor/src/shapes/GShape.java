@@ -3,6 +3,7 @@ package shapes;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
+import constants.GConstants.EAnchors;
 import constants.GConstants.EDrawingType;
 
 public abstract class GShape {
@@ -13,9 +14,17 @@ public abstract class GShape {
 	private Shape shape;
 	private GAnchors anchors;
 	
+	private EAnchors selectedAnchor;
+	
 	// getters & setters
 	public EDrawingType geteDrawingType() { return eDrawingType; }
 	public void seteDrawingType(EDrawingType eDrawingType) { this.eDrawingType = eDrawingType; }
+	public EAnchors getSelectedAnchor() {
+		return selectedAnchor;
+	}
+	public void setSelectedAnchor(EAnchors selectedAnchor) {
+		this.selectedAnchor = selectedAnchor;
+	}
 	public boolean isSelected() { return this.selected; }
 	public void setSelected(boolean selected) {
 		this.selected = selected;
@@ -45,12 +54,24 @@ public abstract class GShape {
 	}
 	
 	public boolean contains(int x, int y) {
-		return this.shape.getBounds2D().contains(x, y);
+		if(this.selected) {
+			selectedAnchor = this.anchors.contains(x, y);
+			if(selectedAnchor != null) {
+				return true;
+			}
+		}
+		if(this.shape.getBounds2D().contains(x, y)){
+			selectedAnchor = EAnchors.MM;
+			return true;
+		}
+		
+		return false;
+		
 	}
 	
 	public void draw(Graphics2D g2D) {
 		g2D.draw(this.shape);
-		if(this.selected){
+		if(this.selected) {
 			this.getAnchors().draw(g2D, this.shape.getBounds());
 		}
 	}

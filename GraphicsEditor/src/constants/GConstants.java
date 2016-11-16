@@ -101,5 +101,5 @@ public class GConstants {
 		TP, NP;
 	}
 	
-	public enum EAnchors {NW, NN, NE, WW, EE, SW, SS, SE, RR};
+	public enum EAnchors {NW, NN, NE, WW, EE, SW, SS, SE, RR, MM};
 }

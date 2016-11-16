@@ -15,13 +15,13 @@ public class GAnchors extends Vector<Ellipse2D.Double>{
 	int AHEIGHT = GConstants.AHEIGHT;
 	
 	public GAnchors() {
-		for(int i = 0; i < EAnchors.values().length; i++) {
+		for(int i = 0; i < EAnchors.values().length-1; i++) {
 			this.add(new Ellipse2D.Double(0, 0, AWIDTH, AHEIGHT));
 		}
 	}
 
 	private void computeCoordinates(Rectangle r) {
-		for(int i = 0; i < EAnchors.values().length; i++) {
+		for(int i = 0; i < EAnchors.values().length-1; i++) {
 			switch(EAnchors.values()[i]) {
 			case NW:
 				this.get(i).x = r.x - AWIDTH/2;
@@ -67,8 +67,20 @@ public class GAnchors extends Vector<Ellipse2D.Double>{
 	
 	public void draw(Graphics2D g2D, Rectangle boundRectangle) {
 		this.computeCoordinates(boundRectangle);
-		for(int i = 0; i < EAnchors.values().length; i++) {
+		for(int i = 0; i < EAnchors.values().length-1; i++) {
 			g2D.draw(this.get(i));
 		}
+	}
+
+	public EAnchors contains(int x, int y) {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < EAnchors.values().length-1; i++){
+			if(this.get(i).contains(x, y)){
+				//System.out.println(EAnchors.values()[i]);
+				return EAnchors.values()[i];
+			}
+		}
+		return null;
+		
 	}
 }

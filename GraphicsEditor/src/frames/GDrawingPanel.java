@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import constants.GConstants.EAnchors;
 import shapes.GCursor;
 import shapes.GPolygon;
 import shapes.GShape;
@@ -52,17 +53,41 @@ public class GDrawingPanel extends JPanel {
 	}
 	
 	private void changeCursor(int x, int y) {
-		if(onShape(x, y) == null) {
+		tempShape = onShape(x, y);
+		if(tempShape != null){
+			if(tempShape.getSelectedAnchor() == null) {
+				this.setCursor(GCursor.defaultCursor);
+			} else {
+				if(tempShape.getSelectedAnchor()==EAnchors.MM) {
+					this.setCursor(GCursor.moveCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.NN) {
+					this.setCursor(GCursor.nnCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.SS) {
+					this.setCursor(GCursor.ssCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.WW) {
+					this.setCursor(GCursor.wwCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.EE) {
+					this.setCursor(GCursor.eeCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.NE) {
+					this.setCursor(GCursor.neCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.NW) {
+					this.setCursor(GCursor.nwCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.SE) {
+					this.setCursor(GCursor.seCursor);
+				} else if(tempShape.getSelectedAnchor()==EAnchors.SW) {
+					this.setCursor(GCursor.swCursor);
+				}
+				//this.setCursor(GCursor.moveCursor);
+			}
+		}else{
 			this.setCursor(GCursor.defaultCursor);
-		} else {
-			this.setCursor(GCursor.moveCursor);
 		}
+		
 	}
 	
 	// clicked shape
 	private void setSelected() {
-		// TODO Auto-generated method stub
-		for(GShape shape: this.getShapes()){
+		for(GShape shape: this.getShapes()) {
 			shape.setSelected(false);
 		}
 		tempShape.setSelected(true);
